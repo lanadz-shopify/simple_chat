@@ -4,6 +4,15 @@ class MessagesController < ApplicationController
   end
 
   def create
-    byebug
+    @message = Message.new message_params
+    @message.save
+
+    redirect_to root_path
+  end
+
+  private
+
+  def message_params
+    params.require(:message).permit(:user, :body)
   end
 end
