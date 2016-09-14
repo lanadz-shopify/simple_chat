@@ -1,13 +1,16 @@
-<h1>Messages</h1>
-<div class="messages-container">
-  <%=render @messages %>
-</div>
+<h1>Simple Messager</h1>
 
-<div class="new-message">
-  <%= form_for Message.new do |f| %>
-    <%= f.text_field :user, placeholder: "User Name" %>
-    <%= f.text_area :body, placeholder: "Your message..." %>
-    <%= f.submit "Send" %>
-  <% end %>
+<br>
 
-</div>
+<%= render 'new_message' %>
+
+<% if @messages.present? %>
+
+  <div class="card messages-container">
+    <div class="card-block">
+      <%= render @messages %>
+    </div>
+  </div>
+
+  <%= render 'new_message' %>
+<% end %>
