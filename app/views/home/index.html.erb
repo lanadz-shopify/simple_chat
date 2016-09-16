@@ -4,13 +4,10 @@
 
 <%= render 'new_message' %>
 
-<% if @messages.present? %>
 
-  <div class="card messages-container">
-    <div class="card-block">
-      <%= render @messages %>
-    </div>
+<div class="card">
+  <div class="card-block messages-container">
+    <%= render @messages %>
   </div>
+</div>
 
-  <%= render 'new_message' %>
-<% end %>
