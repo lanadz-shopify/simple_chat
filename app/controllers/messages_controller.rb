@@ -1,6 +1,7 @@
 class MessagesController < ApplicationController
   def index
-    @messages = Message.all
+    @messages = Message.where('id > ?', params[:id].to_i)
+
     render json: @messages
   end
 
