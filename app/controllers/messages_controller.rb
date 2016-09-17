@@ -9,10 +9,7 @@ class MessagesController < ApplicationController
     @message = Message.new message_params
     @message.save
 
-    respond_to do |format|
-      format.html { redirect_to root_path }
-      format.json { render json: @message }
-    end
+    render json: @message
   end
 
   private

@@ -1,15 +1,12 @@
 $(function () {
-  var retrieveLastMessages = function (lastId) {
-    $.ajax({
-      url: '/messages.json',
-      method: 'GET',
-      data: {id: lastId}
-    }).done(function (data) {
-      $.each(data, function (_, message) {
-        $('.messages-container').append(Template.replaceInTemplate(messageTemplate, message));
-      });
+  var retrieveLastMessages = function (messages) {
+    $.each(messages, function (_, message) {
+      $('.messages-container').append(Template.replaceInTemplate(messageTemplate, message));
     });
   };
+
+  var messages = new Messages({renderer: retrieveLastMessages});
+  messages.fetch();
 
   $('#new_message').on('submit', event, function () {
     event.preventDefault();
@@ -24,7 +21,7 @@ $(function () {
       data: data,
       dataType: 'json'
     }).done(function (data) {
-      $('.messages-container').append(Template.replaceInTemplate(messageTemplate, data));
+      messages.addMessage(data)
     }).always(function () {
       $form.trigger('reset');
     });
@@ -32,11 +29,11 @@ $(function () {
 
   var intervalID = window.setInterval(function () {
     $('#submit_btn').prop('disabled', false);
-    var lastId = $('.messages-container').find('.card:last-child').data('id');
-    if (lastId !== undefined) {
-      retrieveLastMessages(lastId);
-    } else {
-      retrieveLastMessages(null);
-    }
+    // var lastId = $('.messages-container').find('.card:last-child').data('id');
+    // if (lastId !== undefined) {
+    //   retrieveLastMessages(lastId);
+    // } else {
+    //   retrieveLastMessages(null);
+    // }
   }, 2000);
 });
