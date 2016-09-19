@@ -16,3 +16,5 @@ var messageTemplate = "<div class='card' id='message_<%id%>' data-id='<%id%>'><d
   "<strong><%user%></strong>" +
   "<small><%created_at%></small>" +
   "</div><div class='card-block'><%body%></div></div>";
+
+var userTemplate = "<div class='list-group'><a class='list-group-item' id='user_<%user%>' data-id='<%user%>' href='#'><%user%></a></div>";

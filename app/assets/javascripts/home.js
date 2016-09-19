@@ -1,5 +1,5 @@
 $(function () {
-  var renderMessages = function retrieveMessages(messages) {
+  var renderMessages = function selfRenderMessages(messages) {
     $('.messages-container').html('');
 
     $.each(messages, function (_, message) {
@@ -7,7 +7,15 @@ $(function () {
     });
   };
 
-  var messages = new Messages({renderer: renderMessages});
+  var renderUsers = function selfRenderUsers(users) {
+    $('.users-container').html('');
+
+    $.each(users, function (_, user) {
+      $('.users-container').append(Template.replaceInTemplate(userTemplate, user));
+    });
+  };
+
+  var messages = new Messages({messagesRenderer: renderMessages, userRenderer: renderUsers});
   messages.fetch();
 
   $('#new_message').on('submit', event, function submitNewMessage() {
@@ -31,5 +39,5 @@ $(function () {
   var intervalID = window.setInterval(function intervalFunction() {
     $('#submit_btn').prop('disabled', false);
     messages.fetch();
-  }, 2000);
+  }, 5000);
 });

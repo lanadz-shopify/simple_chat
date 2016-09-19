@@ -7,9 +7,13 @@ var Message = function newMessage(data) {
 
 var Messages = function newMessages(options) {
   var self = this;
-  var renderer = options.renderer;
+  var messagesRenderer = options.messagesRenderer;
+  var usersRenderer = options.userRenderer;
 
   self.messages = [];
+
+  self.users = [];
+  self.usersJSON = [];
 
   self.addMessage = function selfAddMessage(message) {
     self.messages.push(new Message(message));
@@ -28,7 +32,20 @@ var Messages = function newMessages(options) {
       $.each(data, function (_, message) {
         self.addMessage(message);
       });
-      renderer(self.messages);
+      self.fetchUsers();
+      messagesRenderer(self.messages);
     });
   };
+
+  self.fetchUsers = function selfFetchUsers() {
+    var allUsers = _.map(self.messages, function (message) {
+      return message.user;
+    });
+    self.users = _.uniq(allUsers);
+    self.usersJSON = [];
+    _.each(self.users, function (user) {
+      self.usersJSON.push({user: user});
+    });
+    usersRenderer(self.usersJSON);
+  }
 };
