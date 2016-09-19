@@ -1,5 +1,5 @@
 $(function () {
-  var retrieveLastMessages = function (messages) {
+  var renderMessages = function retrieveMessages(messages) {
     $('.messages-container').html('');
 
     $.each(messages, function (_, message) {
@@ -7,10 +7,10 @@ $(function () {
     });
   };
 
-  var messages = new Messages({renderer: retrieveLastMessages});
+  var messages = new Messages({renderer: renderMessages});
   messages.fetch();
 
-  $('#new_message').on('submit', event, function () {
+  $('#new_message').on('submit', event, function submitNewMessage() {
     event.preventDefault();
 
     var $form = $(this);
@@ -22,14 +22,13 @@ $(function () {
       method: 'POST',
       data: data,
       dataType: 'json'
-    }).done(function (data) {
-      messages.addMessage(data)
-    }).always(function () {
+    }).done(function successSubmit(data) {
+      messages.addMessage(data);
       $form.trigger('reset');
     });
   });
 
-  var intervalID = window.setInterval(function () {
+  var intervalID = window.setInterval(function intervalFunction() {
     $('#submit_btn').prop('disabled', false);
     messages.fetch();
   }, 2000);
