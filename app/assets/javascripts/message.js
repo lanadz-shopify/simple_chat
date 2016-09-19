@@ -15,9 +15,9 @@ var Messages = function (options) {
     self.messages.push(new Message(message));
   };
 
-  self.fetch = function (lastId) {
-    if (lastId == undefined) {
-      lastId = 0;
+  self.fetch = function () {
+    if (self.messages.length > 0) {
+      var lastId = self.messages[self.messages.length - 1].id
     }
 
     $.ajax({

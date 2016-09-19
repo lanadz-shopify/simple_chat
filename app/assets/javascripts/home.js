@@ -1,5 +1,7 @@
 $(function () {
   var retrieveLastMessages = function (messages) {
+    $('.messages-container').html('');
+
     $.each(messages, function (_, message) {
       $('.messages-container').append(Template.replaceInTemplate(messageTemplate, message));
     });
@@ -29,11 +31,6 @@ $(function () {
 
   var intervalID = window.setInterval(function () {
     $('#submit_btn').prop('disabled', false);
-    // var lastId = $('.messages-container').find('.card:last-child').data('id');
-    // if (lastId !== undefined) {
-    //   retrieveLastMessages(lastId);
-    // } else {
-    //   retrieveLastMessages(null);
-    // }
+    messages.fetch();
   }, 2000);
 });
