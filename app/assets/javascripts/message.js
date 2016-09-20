@@ -5,47 +5,34 @@ var Message = function newMessage(data) {
   this.body = data.body;
 };
 
-var Messages = function newMessages(options) {
+var Messages = function newMessages() {
   var self = this;
-  var messagesRenderer = options.messagesRenderer;
-  var usersRenderer = options.userRenderer;
 
   self.messages = [];
 
-  self.users = [];
-  self.usersJSON = [];
+  self.fetchMessagesFromData = function selfFetchMessagesFromData(data) {
+    self.messages = [];
+
+    $.each(data, function (_, message) {
+      self.addMessage(message);
+    });
+  };
 
   self.addMessage = function selfAddMessage(message) {
     self.messages.push(new Message(message));
   };
 
-  self.fetch = function selfFetch() {
-    if (self.messages.length > 0) {
-      var lastId = self.messages[self.messages.length - 1].id
-    }
+  self.render = function selfRenderMessages() {
+    $('.messages-container').html('');
 
-    $.ajax({
-      url: '/messages.json',
-      method: 'GET',
-      data: {id: lastId}
-    }).done(function selfSuccessfulFetch(data) {
-      $.each(data, function (_, message) {
-        self.addMessage(message);
-      });
-      self.fetchUsers();
-      messagesRenderer(self.messages);
+    $.each(self.messages, function (_, message) {
+      $('.messages-container').append(Template.replaceInTemplate(messageTemplate, message));
     });
   };
 
-  self.fetchUsers = function selfFetchUsers() {
-    var allUsers = _.map(self.messages, function (message) {
-      return message.user;
-    });
-    self.users = _.uniq(allUsers);
-    self.usersJSON = [];
-    _.each(self.users, function (user) {
-      self.usersJSON.push({user: user});
-    });
-    usersRenderer(self.usersJSON);
-  }
+  var messageTemplate = "<div class='card' id='message_<%id%>' data-id='<%id%>'><div class='card-header bg-info'>" +
+    "<strong><%user%></strong>" +
+    "<small><%created_at%></small>" +
+    "</div><div class='card-block'><%body%></div></div>";
+
 };

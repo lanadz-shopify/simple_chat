@@ -10,11 +10,3 @@ var Template = {
     return template;
   }
 };
-
-
-var messageTemplate = "<div class='card' id='message_<%id%>' data-id='<%id%>'><div class='card-header bg-info'>" +
-  "<strong><%user%></strong>" +
-  "<small><%created_at%></small>" +
-  "</div><div class='card-block'><%body%></div></div>";
-
-var userTemplate = "<div class='list-group'><a class='list-group-item' id='user_<%user%>' data-id='<%user%>' href='#'><%user%></a></div>";

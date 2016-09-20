@@ -1,22 +1,6 @@
 $(function () {
-  var renderMessages = function selfRenderMessages(messages) {
-    $('.messages-container').html('');
-
-    $.each(messages, function (_, message) {
-      $('.messages-container').append(Template.replaceInTemplate(messageTemplate, message));
-    });
-  };
-
-  var renderUsers = function selfRenderUsers(users) {
-    $('.users-container').html('');
-
-    $.each(users, function (_, user) {
-      $('.users-container').append(Template.replaceInTemplate(userTemplate, user));
-    });
-  };
-
-  var messages = new Messages({messagesRenderer: renderMessages, userRenderer: renderUsers});
-  messages.fetch();
+  var chat = new Chat();
+  chat.fetchMessages();
 
   $('#new_message').on('submit', event, function submitNewMessage() {
     event.preventDefault();
@@ -31,13 +15,13 @@ $(function () {
       data: data,
       dataType: 'json'
     }).done(function successSubmit(data) {
-      messages.addMessage(data);
+      chat.messages.addMessage(data);
       $form.trigger('reset');
     });
   });
 
   var intervalID = window.setInterval(function intervalFunction() {
     $('#submit_btn').prop('disabled', false);
-    messages.fetch();
+    chat.fetchMessages();
   }, 5000);
 });
