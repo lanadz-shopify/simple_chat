@@ -21,6 +21,4 @@ var Chat = function newChat() {
       self.users.render();
     });
   };
-
-
 };
