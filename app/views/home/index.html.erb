@@ -1,27 +1,5 @@
 <h1>Simple Messager</h1>
 
-<br>
-
-<div class="row">
-  <div class="col-xs-12">
-    <%= render 'new_message' %>
-  </div>
-</div>
-
-<div class="row">
-  <div class="col-xs-6">
-    <div class="card">
-      <div class="card-header bg-inverse">History</div>
-      <div class="card-block messages-container">
-        <%= react_component 'Messages', { data: @messages }%>
-      </div>
-    </div>
-  </div>
-
-  <div class="col-xs-6">
-    <div class="card">
-      <div class="card-header bg-inverse">Participants</div>
-      <div class="card-block users-container"></div>
-    </div>
-  </div>
+<div class="chat">
+  <%= react_component('Chat', {messages: @messages})%>
 </div>
