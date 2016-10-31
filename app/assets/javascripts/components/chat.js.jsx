@@ -5,10 +5,32 @@ var Chat = React.createClass({
     };
   },
 
+  onAddItems: function (userName, msgBody) {
+    $.post(
+      this.props.messagesURI,
+      {message: {user: userName, body: msgBody}}
+    ).done(
+      function messageCreate(data) {
+        var messages = this.state.messages;
+        messages.unshift(data);
+        this.setState({messages: messages});
+      }.bind(this)
+    ).fail(
+      function (error) {
+      }
+    );
+  },
+
+  renderForm: function () {
+    return (
+      <MessageForm callback={this.onAddItems}/>
+    );
+  },
+
   renderMessages: function () {
     return (
       <div>
-        <Messages messages={this.props.messages}/>
+        <Messages messages={this.state.messages}/>
       </div>
     )
   },
@@ -18,6 +40,7 @@ var Chat = React.createClass({
       <div className="chat">
         <div className="row">
           <div className="col-xs-12">
+            { this.renderForm() }
           </div>
         </div>
         <div className="row">
