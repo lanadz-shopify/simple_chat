@@ -6,6 +6,21 @@ var MessageForm = React.createClass({
     this.props.callback(userName, msgBody);
   },
 
+  renderErrors: function renderErrors() {
+    if (Object.keys(this.props.errors).length > 0) {
+      var errors = [];
+      $.map(this.props.errors, function (value, key) {
+        errors.push(
+          <div key={key}>{key + " " + value}</div>
+        )
+      });
+
+      return (
+        <div className="alert alert-danger">{errors}</div>
+      )
+    }
+  },
+
   render: function () {
     var bodyRef = function (input) {
       this.bodyRef = input;
@@ -14,12 +29,12 @@ var MessageForm = React.createClass({
     var userNameRef = function (input) {
       this.userNameRef = input;
     }.bind(this);
-
     return (
       <div className="card new-message">
         <div className="card-header bg-inverse">
           Say something
         </div>
+        {this.renderErrors()}
         <form>
           <div className="card-block">
             <div className="form-group">

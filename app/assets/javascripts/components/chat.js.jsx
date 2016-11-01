@@ -1,8 +1,10 @@
 var Chat = React.createClass({
   getInitialState: function () {
     return {
-      messages: this.props.messages
-    };
+      messages: this.props.messages,
+      errors: {}
+    }
+      ;
   },
 
   onAddItems: function (userName, msgBody) {
@@ -13,17 +15,20 @@ var Chat = React.createClass({
       function messageCreate(data) {
         var messages = this.state.messages;
         messages.unshift(data);
-        this.setState({messages: messages});
+        this.setState({messages: messages, errors: {}});
       }.bind(this)
     ).fail(
-      function (error) {
-      }
+      function failMessageCreate(error) {
+        if (error.responseText) {
+          this.setState({errors: JSON.parse(error.responseText).errors});
+        }
+      }.bind(this)
     );
   },
 
   renderForm: function () {
     return (
-      <MessageForm callback={this.onAddItems}/>
+      <MessageForm callback={this.onAddItems} errors={this.state.errors}/>
     );
   },
 
